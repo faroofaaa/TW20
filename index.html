@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123c69"><meta name="description" content="Registro e avaliação do teste TW20 de voleibol">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>TW20 Mobile</title>
+<style>
+:root{--blue:#123c69;--blue2:#1e5b91;--bg:#f3f6fa;--card:#fff;--ink:#172334;--muted:#66758a;--line:#dce4ed;--green:#18794e;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,sans-serif;padding-bottom:80px}
+header{background:var(--blue);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:3;box-shadow:0 2px 8px #0002}
+header h1{margin:0;font-size:22px}header p{margin:4px 0 0;color:#dbeafe;font-size:12px}
+main{max-width:760px;margin:auto;padding:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 1px 3px #15283c0a}
+h2{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+input,select,button{font:inherit}input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:white;color:var(--ink)}
+button{border:0;border-radius:11px;padding:12px 14px;background:var(--blue);color:white;font-weight:650;cursor:pointer}
+button.secondary{background:#e8eef5;color:var(--blue)}button.danger{background:#fff0ef;color:var(--red)}button:disabled{opacity:.45}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:4;background:white;border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))}
+nav button{flex:1;max-width:240px;background:white;color:var(--muted);padding:10px 4px;font-size:12px}nav button.active{background:#e8f0f8;color:var(--blue)}
+.timer{font-size:46px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;color:var(--blue);padding:8px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#f4f7fb;border-radius:12px;padding:12px}.metric b{display:block;font-size:23px;color:var(--blue)}.metric span{font-size:12px;color:var(--muted)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.small{font-size:12px;color:var(--muted);line-height:1.45}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}.itemhead{display:flex;justify-content:space-between;gap:8px}.item strong{overflow-wrap:anywhere}.pill{font-size:11px;background:#e8f0f8;color:var(--blue);padding:4px 8px;border-radius:20px;white-space:nowrap}
+.hidden{display:none!important}.notice{background:#fff7e6;border:1px solid #f4d58d;border-radius:10px;padding:10px;font-size:12px;color:#76520a}
+</style></head>
+<body>
+<header><h1>🏐 TW20 MOBILE</h1><p>AVALIAÇÃO FÍSICA • VOLEIBOL DE QUADRA</p></header>
+<main>
+<section id="view-test">
+<div class="card"><h2>Nova avaliação</h2>
+<label>Atleta</label><input id="athlete" placeholder="Nome completo">
+<div class="grid"><div><label>Turma / equipe</label><input id="team" placeholder="Ex.: 5º período"></div><div><label>Data</label><input id="date" type="date"></div></div>
+<div class="grid"><div><label>Fase</label><select id="phase"><option>Inicial</option><option>Intermediária</option><option>Final</option></select></div><div><label>Distância percorrida (m)</label><input id="distance" type="number" min="0" step="0.01" placeholder="Ex.: 703.07"></div></div>
+</div>
+<div class="card"><h2>Cronômetro de 6 minutos</h2><div class="timer" id="timer">06:00</div><div class="row"><button id="start">Iniciar</button><button class="secondary" id="pause">Pausar</button><button class="secondary" id="reset">Zerar</button></div><p class="small">O cronômetro é integrado ao aplicativo. Inicie no sinal de partida e registre a distância total ao final. Mantenha a tela ativa durante a cronometragem.</p></div>
+<div class="card"><h2>Resultados calculados</h2><div class="metrics">
+<div class="metric"><b id="speed">—</b><span>Velocidade média (m/s)</span></div>
+<div class="metric"><b id="stages">—</b><span>Estágios equivalentes de 20 m</span></div>
+<div class="metric"><b id="jumps">—</b><span>Saltos estimados</span></div>
+<div class="metric"><b id="turns">—</b><span>Mudanças de direção estimadas</span></div>
+</div><p id="calc-note" class="small">Informe a distância para calcular os resultados.</p>
+<button id="save" style="width:100%;margin-top:12px" disabled>Salvar avaliação</button></div>
+<div class="notice">As estimativas de saltos e mudanças de direção usam equações de regressão e não representam contagem direta. O app não verifica a execução técnica nem a montagem do circuito.</div>
+</section>
+<section id="view-db" class="hidden"><div class="card"><h2>Banco de avaliações</h2><input id="search" placeholder="Buscar atleta ou turma"><p id="count" class="small"></p><div id="records"></div><div class="row"><button id="export">Exportar Excel/CSV</button><button class="secondary" id="backup">Backup JSON</button></div><label>Importar backup JSON</label><input id="importFile" type="file" accept=".json,application/json"></div></section>
+<section id="view-rank" class="hidden"><div class="card"><h2>Ranking por distância</h2><p class="small">Compare resultados de avaliações equivalentes e padronizadas.</p><div id="ranking"></div></div></section>
+<section id="view-help" class="hidden"><div class="card"><h2>Instalação e protocolo</h2><p>Para instalar: abra o endereço publicado deste app no Chrome (Android) ou Safari (iPhone), escolha “Adicionar à tela inicial” / “Instalar aplicativo”.</p><p>O banco é armazenado localmente neste aparelho e navegador. Faça backups regulares; limpar os dados do navegador pode apagar os registros.</p><h3>Equações implementadas</h3><p>Velocidade média = distância ÷ 360 s.</p><p>Estágios equivalentes = distância ÷ 20 m.</p><p>Saltos estimados = −1,749 + (0,153 × distância).</p><p>Mudanças de direção estimadas = −0,893 + (0,251 × distância).</p><p class="small">As duas regressões só são exibidas para distância superior a 500 m, conforme a regra de cautela adotada nesta ferramenta. Confirme a faixa de validade e o protocolo no artigo original antes de interpretar os resultados.</p><h3>Privacidade</h3><p>Os dados ficam no armazenamento local do navegador. Não há envio automático para servidor. Evite inserir dados sensíveis desnecessários.</p></div></section>
+</main>
+<nav><button class="active" data-view="test">📝<br>Avaliar</button><button data-view="db">👥<br>Banco</button><button data-view="rank">🏆<br>Ranking</button><button data-view="help">ℹ️<br>Ajuda</button></nav>
+<script src="app.js"></script>
+</body></html>

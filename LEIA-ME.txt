@@ -1,0 +1,32 @@
+# TW20 Mobile – pacote instalável (PWA)
+
+## O que está incluído
+- `index.html`, `app.js`, `manifest.webmanifest`, `sw.js` e ícones.
+- Cronômetro integrado de 6 minutos.
+- Cadastro e armazenamento local de avaliações no aparelho/navegador.
+- Cálculo de velocidade média, estágios equivalentes e estimativas de regressão.
+- Ranking, exportação CSV compatível com Excel e backup/restauração JSON.
+
+## Como instalar no celular
+O PWA precisa ser publicado em um endereço HTTPS (ou executado em localhost). Um ZIP aberto diretamente no celular não instala como aplicativo.
+
+### Opção simples: GitHub Pages
+1. Entre em https://github.com e crie uma conta, se necessário.
+2. Crie um repositório público chamado `tw20-mobile`.
+3. Envie todos os arquivos e pastas deste ZIP para a raiz do repositório (não envie a pasta externa `tw20_mobile` como uma subpasta).
+4. Em Settings > Pages, escolha Deploy from a branch, selecione `main` e `/ (root)` e salve.
+5. Aguarde a publicação. O endereço será semelhante a `https://SEU-USUARIO.github.io/tw20-mobile/`.
+6. Android/Chrome: abra o endereço e escolha Instalar aplicativo ou Adicionar à tela inicial.
+7. iPhone/Safari: abra o endereço, toque em Compartilhar e escolha Adicionar à Tela de Início.
+
+## Dados e privacidade
+Os registros ficam no armazenamento local do navegador do aparelho. Não há sincronização entre celulares nem envio para servidor. Use Exportar Excel/CSV e Backup JSON regularmente. Se limpar os dados do navegador, os registros locais podem ser apagados.
+
+## Observações científicas
+- O tempo é fixado em 360 segundos.
+- Velocidade média = distância / 360.
+- Estágios equivalentes = distância / 20; não significa necessariamente contagem de passagens completas do circuito.
+- Saltos estimados = -1,749 + 0,153 × distância.
+- Mudanças de direção estimadas = -0,893 + 0,251 × distância.
+- As duas regressões são estimativas, não contagem direta. A aplicação e a faixa de validade devem ser conferidas no artigo original e no protocolo adotado.
+- O aplicativo não automatiza a medição física da distância, não identifica voltas por câmera/GPS e não verifica a técnica dos bloqueios.
